@@ -10,10 +10,15 @@
 #import "LTAddMenuHelper.h"
 #import "LTAddMenuCell.h"
 
+//判断是否是iphone
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+//是否是iPhone X
+#define IS_IPHONE_X                 (IS_IPHONE && ([UIScreen mainScreen].bounds.size.height == 812 || [UIScreen mainScreen].bounds.size.height == 896))
 
 #define     WIDTH_TABLEVIEW             140.0f
 #define     HEIGHT_TABLEVIEW_CELL       45.0f
-#define     HEIGHT_NAVBAR               44.0f
+#define     HEIGHT_NAVBAR               (IS_IPHONE_X ? 68.0f : 44.0f)
 #define     HEIGHT_STATUSBAR            20.0f
 
 @interface LTAddMenuView ()<UITableViewDelegate,UITableViewDataSource>
@@ -34,12 +39,9 @@
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self addSubview:self.tableView];
-        
         self.dataSources = self.helper.menuData;
-        
         UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
         [self addGestureRecognizer:panGR];
-        
     }
     return self;
 }
